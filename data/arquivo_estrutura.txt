@@ -1,0 +1,1 @@
+Retirar arquivos de estrutura no final do projeto.

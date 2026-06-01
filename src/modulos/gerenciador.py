@@ -8,6 +8,7 @@ class Gerenciador:
         self.sistemas_perigo = []
         self.energia_colonia = None
         self.path_logs = r"logs\log_energia.txt"
+        self.coordenadas:tuple = (-4.5, 137.4) # Cratera Gale
 
 
     def insere_sistema_integrado(self, nome, tipo, criticidade):

@@ -5,7 +5,7 @@ import pvlib
 import random
 import math
 
-from telemetria import Telemetria
+from src.modulos.telemetria import Telemetria
 
 def gerar_coordenadas_aleatorias():
     # Latitude: -90 a 90 graus
@@ -38,6 +38,7 @@ class Sistemas:
         Define geração de energia da última hora do módulo de energia.
         Temos um fator de perda de 0.8, para representar a perda da radiação solar no meio do caminho.
         Além disso, usamos um fator no cálculo da potencia de 0.85 que é a capacidade dos nossos módulos solares de traduzir a radiação em energia, transformando em média 85% do valor.
+        A quantidade de horas de Marte é similar a quantidade de horas na Terra, então podemos usar essa biblioteca solarposition como se fosse na Terra.
         """
         posicao_solar = pvlib.solarposition.get_solarposition(now, *coordenadas_operacao)
         elevation = posicao_solar['elevation'].iloc[0]

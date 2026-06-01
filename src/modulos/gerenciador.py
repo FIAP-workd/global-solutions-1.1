@@ -1,5 +1,6 @@
 from datetime import datetime
-from sistemas_integrados import Sistemas
+import pandas as pd
+from src.modulos.sistemas_integrados import Sistemas
 
 
 class Gerenciador:
@@ -21,7 +22,7 @@ class Gerenciador:
         self.dict_sistemas = self.define_dict_sistemas(sistema, tipo)
         
 
-    def define_enegia_colonia(self):
+    def define_energia_colonia(self):
         if self.energia_colonia is None:
             energia = self.get_last_energy_value()
     

@@ -1,5 +1,5 @@
 import random
-from modulosCriticos import ModulosCriticos
+from src.modulos.modulosCriticos import ModulosCriticos
 
 class Telemetria:
     def __init__(self, list_modulos):

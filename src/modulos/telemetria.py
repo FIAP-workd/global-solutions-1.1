@@ -1,85 +1,74 @@
-import random
-from src.modulos.modulosCriticos import ModulosCriticos
+import json
+from collections import deque
+from pathlib import Path
 
-class Telemetria:
-    def __init__(self, list_modulos):
-        """
-        Nessa camada do __init__ iniciamos todos os atributos que vamos precisar para
-        o módulo da Telemetria.
-        """
-        self.temperatura_interna = None   # Possui
-        self.temperatura_externa = None   # Possui
-        self.integridade_estrutural = None  # Possui
-        self.pressao_tanque = None
-        self.modulos = [ModulosCriticos(modulo) for modulo in list_modulos]
-        self.dict_validacoes = None
-        self.dict_auditoria = None
-        self.dict_valores = None
-        self.decisao_decolagem = None
-        self.nivel_bateria = None
-     
-
-    @property
-    def valores(self):
-        return self.dict_valores
-
-    # Funções para definir valores dos módulos
-    def testar_todos_modulos(self):
-        for modulo in self.modulos:
-          modulo.testar_status()
-        return self.modulos
-
-    def captura_temperatura_interna(self):      # Está sendo calculada
-        # Distribuição normal com média de 24 e desvio de 6, assim, eu aumento a possibilidade de cair entre o intervalo seguro
-        self.temperatura_interna = max(-10, min(350, int(random.gauss(24,6))))   # Com essa distribuição, aumento as chances de cair um valor aleatório dentro do limite seguro de lançamento
-        return self.temperatura_interna
-
-    def captura_temperatura_externa(self):      # Está sendo calculada
-        self.temperatura_externa = max(-80, min(100, int(random.gauss(25,8))))
-        return self.temperatura_externa
+from src.modulos.modelos import LeituraHoraria
 
 
-    def captura_energy_lvl(self):     # Está sendo calculada
-        self.nivel_bateria = random.betavariate(10,1)    # Com essa distribuição aumento as chances de cair entre 80 e 100 de energia.
-        return self.nivel_bateria
+class TelemetriaMissao:
+    def __init__(self, caminho_arquivo):
+        self.caminho_arquivo = Path(caminho_arquivo)
+        self.nome_missao = ""
+        self.leituras = []
 
+        self.consumo_energetico = []
+        self.geracao_energetica = []
+        self.temperaturas = []
+        self.fila_alertas = deque()
+        self.pilha_eventos_criticos = []
+        self.modulos_por_nome = {}
+        self.hierarquia_subsistemas = {}
+        self.matriz_energia = []
 
-    def captura_pressao_tanque(self):     # Está sendo calculada
-        self.pressao_tanque = random.gauss(70,5)
-        return self.pressao_tanque
+    def carregar(self):
+        dados = json.loads(self.caminho_arquivo.read_text(encoding="utf-8"))
+        self.nome_missao = dados["missao"]
+        self.leituras = [LeituraHoraria(**leitura) for leitura in dados["leituras"]]
+        self._organizar_estruturas()
+        return self
 
-    def captura_integridade_estrutural(self):   # Está sendo calculada
-        self.integridade_estrutural = random.choices([True, False], weights=[0.9, 0.1])[0]
-        return self.integridade_estrutural
+    def ultima_leitura(self):
+        return self.leituras[-1]
 
-    def captura_infos_telemetria(self):
-        self.captura_temperatura_interna()
-        self.captura_temperatura_externa()
-        self.captura_integridade_estrutural()
-        self.captura_energy_lvl()
-        self.captura_pressao_tanque()
+    def ultimas_leituras(self, quantidade):
+        return self.leituras[-quantidade:]
 
+    def registrar_alerta(self, alerta):
+        self.fila_alertas.append(alerta)
 
-    # Funções de validação
-    def validacoes_telemetria(self):
-        """
-        Captura todas as informações da telemetria e armazena
-        em self.dict_valores.
-        """
+    def registrar_evento_critico(self, evento):
+        self.pilha_eventos_criticos.append(evento)
 
-        self.testar_todos_modulos()
-        self.captura_infos_telemetria()
+    def processar_alertas(self):
+        processados = []
+        while self.fila_alertas:
+            processados.append(self.fila_alertas.popleft())
+        return processados
 
-        self.dict_valores = {
-            'temperatura_interna': self.temperatura_interna,
-            'temperatura_externa': self.temperatura_externa,
-            'integridade_estrutural': self.integridade_estrutural,
-            'pressao_tanque': self.pressao_tanque,
-            'nivel_bateria': self.nivel_bateria,
-            'modulos': {
-                modulo.nome: modulo.status
-                for modulo in self.modulos
-            }
-        }
+    def _organizar_estruturas(self):
+        for leitura in self.leituras:
+            energia = leitura.energia
+            ambiente = leitura.ambiente
 
-        return self.dict_valores
+            self.consumo_energetico.append(energia["consumo_kwh"])
+            self.geracao_energetica.append(energia["geracao_kwh"])
+            self.temperaturas.append(ambiente["temperatura_c"])
+            self.matriz_energia.append(
+                [
+                    energia["geracao_kwh"],
+                    energia["consumo_kwh"],
+                    energia["bateria_percentual"],
+                ]
+            )
+
+            for evento in leitura.eventos:
+                if "falha" in evento or "alerta" in evento or "inconsistencia" in evento:
+                    self.registrar_evento_critico(
+                        {
+                            "timestamp": leitura.timestamp,
+                            "evento": evento,
+                        }
+                    )
+
+        self.modulos_por_nome = self.ultima_leitura().modulos
+        self.hierarquia_subsistemas = self.ultima_leitura().subsistemas

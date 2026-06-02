@@ -218,3 +218,6 @@ __marimo__/
 .streamlit/secrets.toml
 
 .guia_projeto/
+
+# Arquivos antigos mantidos apenas como referencia local
+arquivos_fora_escopo/

@@ -69,10 +69,18 @@ class SistemaMonitoramentoMissao:
         print("Estruturas de dados usadas:")
         print(f"- Lista de consumo: {len(telemetria.consumo_energetico)} valores")
         print(f"- Fila de alertas processados: {len(alertas)} alertas")
+        print(f"- Log de eventos: {len(telemetria.log_eventos)} registros")
         print(f"- Pilha de eventos criticos: {len(telemetria.pilha_eventos_criticos)} eventos")
         print(f"- Dicionario de modulos: {telemetria.modulos_por_nome}")
         print(f"- Hierarquia de subsistemas: {telemetria.hierarquia_subsistemas}")
         print(f"- Matriz energia [geracao, consumo, bateria]: {len(telemetria.matriz_energia)} linhas")
+        print()
+
+        print("Log de eventos - 8 registros selecionados:")
+        for evento in telemetria.eventos_para_relatorio(8):
+            print(f"- {evento['timestamp']} [{evento['tipo']}] {evento['descricao']}")
+            print(f"  Detalhes: {evento['detalhes']}")
+            print(f"  Acao recomendada: {evento['acao_recomendada']}")
         print()
 
         print("Previsao por media movel simples:")

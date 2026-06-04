@@ -1,7 +1,8 @@
 # Global Solution 2026 - Monitoramento de Missao Espacial
 
 Sistema orientado a objetos para monitorar uma missao espacial experimental a
-partir de dados horarios de telemetria.
+partir de dados horarios de telemetria. Os dados simulam coletas de informações
+de horas em horas de uma colônia
 
 ## Como executar
 

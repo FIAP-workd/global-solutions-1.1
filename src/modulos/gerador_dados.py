@@ -142,30 +142,150 @@ class GeradorTelemetria:
             },
         }
 
+    def _criar_evento(self, tipo, descricao, detalhes, acao_recomendada):
+        return {
+            "tipo": tipo,
+            "descricao": descricao,
+            "detalhes": detalhes,
+            "acao_recomendada": acao_recomendada,
+        }
+
     def _gerar_eventos(self, hora, modulos, ambiente, bateria):
         eventos = []
 
         if hora % 168 == 0:
-            eventos.append("reinicializacao preventiva semanal")
+            eventos.append(
+                self._criar_evento(
+                    "reinicializacao",
+                    "Reinicializacao preventiva semanal",
+                    "Rotina programada para limpar estados temporarios e validar servicos essenciais.",
+                    "Confirmar retorno dos modulos criticos e registrar qualquer falha pos-reinicializacao.",
+                )
+            )
         if bateria < 25:
-            eventos.append("alerta de bateria baixa")
+            eventos.append(
+                self._criar_evento(
+                    "alerta",
+                    "Bateria em nivel baixo",
+                    f"Nivel atual da bateria: {bateria:.2f}%.",
+                    "Reduzir consumo nao essencial e priorizar suporte a vida, comunicacao e energia.",
+                )
+            )
         if ambiente["radiacao_msv"] > 90:
-            eventos.append("alerta de radiacao elevada")
+            eventos.append(
+                self._criar_evento(
+                    "alerta",
+                    "Radiacao elevada",
+                    f"Radiacao medida: {ambiente['radiacao_msv']:.2f} mSv.",
+                    "Suspender atividades externas e mover equipe para areas protegidas.",
+                )
+            )
         if ambiente["qualidade_comunicacao"] < 40:
-            eventos.append("falha de comunicacao")
+            eventos.append(
+                self._criar_evento(
+                    "falha",
+                    "Falha de comunicacao",
+                    f"Qualidade do sinal caiu para {ambiente['qualidade_comunicacao']:.2f}%.",
+                    "Ativar canal de emergencia e reiniciar o modulo de comunicacao.",
+                )
+            )
+            eventos.append(
+                self._criar_evento(
+                    "falha_sensor",
+                    "Falha no sensor de comunicacao",
+                    "Leitura de comunicacao abaixo do limite minimo de confiabilidade.",
+                    "Comparar com sensores redundantes e recalibrar o sensor principal.",
+                )
+            )
+        if ambiente["sensor_oxigenio"] == 0:
+            eventos.append(
+                self._criar_evento(
+                    "falha_sensor",
+                    "Falha no sensor de oxigenio",
+                    "Sensor de oxigenio retornou desligado enquanto o suporte a vida estava ativo.",
+                    "Auditar sensor de oxigenio e validar leitura com sensor reserva.",
+                )
+            )
 
         for nome, status in modulos.items():
             if status == 0:
-                eventos.append(f"falha no modulo {nome}")
+                eventos.append(self._evento_falha_modulo(nome))
 
         if hora == 333:
-            eventos.append("inconsistencia proposital: suporte de vida ativo com sensor de oxigenio desligado")
+            eventos.append(
+                self._criar_evento(
+                    "inconsistencia",
+                    "Inconsistencia entre suporte a vida e sensor de oxigenio",
+                    "Suporte a vida marcado como operacional, mas sensor de oxigenio esta desligado.",
+                    "Bloquear decisao automatica baseada nesse sensor ate concluir auditoria.",
+                )
+            )
         if hora in (250, 500, 750, 1000):
-            eventos.append("mudanca de prioridade operacional")
+            eventos.append(self._evento_mudanca_prioridade(hora, bateria))
         if bateria < 35:
-            eventos.append("ativacao de modo economico")
+            eventos.append(
+                self._criar_evento(
+                    "modo_economico",
+                    "Ativacao de modo economico",
+                    f"Bateria em {bateria:.2f}%, abaixo do limite operacional de 35%.",
+                    "Desligar laboratorio temporariamente e reduzir ciclos de processamento nao essenciais.",
+                )
+            )
 
         return eventos
+
+    def _evento_falha_modulo(self, nome):
+        detalhes_por_modulo = {
+            "energia": (
+                "Modulo de energia indisponivel ou operando fora do esperado. "
+                "A geracao pode nao acompanhar o consumo e a bateria tende a cair."
+            ),
+            "comunicacao": "Modulo de comunicacao falhou, comprometendo envio de telemetria e comandos remotos.",
+            "suporte_vida": "Modulo de suporte a vida falhou, colocando a seguranca da tripulacao em risco.",
+            "habitat": "Modulo de habitat falhou, afetando controle ambiental interno.",
+            "laboratorio": "Modulo de laboratorio falhou, exigindo pausa nas atividades cientificas.",
+            "armazenamento": "Modulo de armazenamento falhou, podendo afetar persistencia de dados da missao.",
+        }
+        acoes_por_modulo = {
+            "energia": "Ativar modo economia, verificar baterias e priorizar energia para suporte a vida.",
+            "comunicacao": "Ativar canal de emergencia e reinicializar o modulo de comunicacao.",
+            "suporte_vida": "Executar protocolo critico e redirecionar energia para suporte a vida.",
+            "habitat": "Verificar temperatura, oxigenio e pressurizacao do habitat.",
+            "laboratorio": "Suspender experimentos e isolar o laboratorio ate diagnostico.",
+            "armazenamento": "Criar backup dos dados criticos e trocar para armazenamento redundante.",
+        }
+        return self._criar_evento(
+            "falha_modulo",
+            f"Falha no modulo {nome}",
+            detalhes_por_modulo.get(nome, "Modulo critico apresentou falha operacional."),
+            acoes_por_modulo.get(nome, "Isolar modulo e executar diagnostico manual."),
+        )
+
+    def _evento_mudanca_prioridade(self, hora, bateria):
+        prioridades = {
+            250: (
+                "Prioridade alterada de pesquisa cientifica para comunicacao.",
+                "Janela de transmissao com a base exigiu mais banda e estabilidade de sinal.",
+                "Reduzir tarefas do laboratorio e reservar capacidade para envio de telemetria.",
+            ),
+            500: (
+                "Prioridade alterada de operacao normal para conservacao de energia.",
+                f"Bateria em {bateria:.2f}% e consumo projetado acima da geracao.",
+                "Adiar tarefas nao essenciais e manter apenas suporte a vida, comunicacao e energia.",
+            ),
+            750: (
+                "Prioridade alterada de pesquisa para protecao ambiental.",
+                "Historico recente indicou maior risco ambiental para atividades externas.",
+                "Suspender atividades externas e acompanhar radiacao nas proximas leituras.",
+            ),
+            1000: (
+                "Prioridade alterada de manutencao rotineira para recuperacao operacional.",
+                "Eventos acumulados indicaram necessidade de estabilizar sistemas antes de novas tarefas.",
+                "Revisar modulos com falha, confirmar sensores e manter modo conservador.",
+            ),
+        }
+        descricao, detalhes, acao = prioridades[hora]
+        return self._criar_evento("mudanca_prioridade", descricao, detalhes, acao)
 
 
 if __name__ == "__main__":

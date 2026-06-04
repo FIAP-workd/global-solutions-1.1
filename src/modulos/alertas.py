@@ -50,7 +50,7 @@ class CentralAlertas:
                 leitura.timestamp,
             )
 
-        for inconsistencia in inconsistencias[-3:]:
+        for inconsistencia in inconsistencias:
             self._adicionar(
                 "ALERTA",
                 inconsistencia["descricao"],

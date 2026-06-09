@@ -173,7 +173,7 @@ Tambem ha recomendacoes vinculadas aos alertas:
 
 ## Link do video no YouTube
 
-[Link do Youtube](https://youtu.be/GxMH2xI0zME)
+[Link do Youtube](https://youtu.be/DV2pMl7_dq8)
 
 ## Conclusoes e aprendizados
 

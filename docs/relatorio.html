@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório - Global Solution 2026 | Monitoramento de Missão Espacial</title>
+    <style>
+        /* Reset e configuração para impressão A4 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #e2e8f0;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+            color: #0f172a;
+        }
+
+        /* Container principal estilo folha A4 */
+        .paper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 2rem 2.2rem;
+            transition: all 0.2s;
+        }
+
+        /* Estilos tipográficos */
+        h1 {
+            font-size: 1.9rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: #0f3b5c;
+            border-left: 6px solid #2c7da0;
+            padding-left: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: #1e4a6e;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Listas */
+        ul, ol {
+            margin: 0.8rem 0 1rem 1.8rem;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #0c4a6e;
+        }
+
+        /* Blocos de código e árvore */
+        pre, .code-block {
+            background-color: #f8fafc;
+            border-left: 4px solid #2c7da0;
+            padding: 1rem 1.2rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            border-radius: 10px;
+            margin: 1rem 0;
+            color: #1e293b;
+            box-shadow: inset 0 0 0 1px #e2e8f0;
+        }
+
+        code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #b91c1c;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #0f172a;
+            font-weight: normal;
+        }
+
+        /* Destaque para notas, referências */
+        .highlight-box {
+            background: #fef9e3;
+            border-left: 5px solid #f59e0b;
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            margin: 1.2rem 0;
+        }
+
+        hr {
+            margin: 2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, #cbd5e1, transparent);
+        }
+
+        /* Ajustes de impressão A4 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .paper {
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0.7cm 0.9cm;
+                border-radius: 0;
+            }
+            h1, h2, h3 {
+                break-after: avoid;
+                page-break-after: avoid;
+            }
+            pre, table, p, ul {
+                break-inside: avoid-page;
+                page-break-inside: avoid;
+            }
+            @page {
+                size: A4;
+                margin: 1.8cm 1.5cm;
+            }
+            body, .paper {
+                background: white;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+
+        /* rodapé sutil para leitura */
+        .footer-meta {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #475569;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 1rem;
+        }
+        .badge-missao {
+            background: #eef2ff;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="paper">
+    <!-- Conteúdo extraído fielmente do notebook relatorio.ipynb -->
+    <div style="margin-bottom: 1rem;">
+        <span class="badge-missao">🚀 Ares Habitat Experimental</span>
+    </div>
+    <h1>Relatório — Global Solution 2026<br><span style="font-size:1.2rem;">Sistema de Monitoramento de Missão Espacial</span></h1>
+    <p><strong>Projeto:</strong> Global Solution 2026 — Monitoramento de Missão Espacial<br>
+    <strong>Repositório:</strong> https://github.com/FIAP-workd/global-solutions-1.1<br>
+    <strong>Equipe:</strong> Gabriel Coutinho Barcelos, Pedro César Fernandes de Brito, Luis Gustavo Andrade, KAIO ABREU BRIEGAS, João Victor Feitosa</p>
+    <hr>
+
+    <h2>1. Introdução</h2>
+    <p>O projeto desenvolvido tem como objetivo simular um sistema de monitoramento para uma missão espacial experimental. A proposta é acompanhar dados de telemetria da colônia, analisar o estado dos módulos críticos, identificar falhas, gerar alertas e apresentar recomendações automáticas para manter a missão em funcionamento.</p>
+    <p>O sistema foi construído em Python e organizado de forma modular, separando as responsabilidades em arquivos diferentes. Essa divisão facilita a leitura do código e deixa mais claro o papel de cada parte do sistema, como geração dos dados, leitura da telemetria, diagnóstico operacional, alertas, previsão e recomendações.</p>
+    <p>A missão simulada recebe o nome de <strong>Ares Habitat Experimental</strong>. A partir das leituras horárias, o programa consegue avaliar energia, ambiente, comunicação, suporte à vida, eventos operacionais e inconsistências nos dados.</p>
+
+    <h2>2. Objetivo do sistema</h2>
+    <p>O objetivo principal do sistema é transformar dados simulados de uma missão espacial em informações úteis para tomada de decisão. Em vez de apenas exibir números, o programa interpreta os dados e classifica a operação da missão em três estados:</p>
+    <ul>
+        <li><strong>NORMAL:</strong> quando os sistemas estão dentro dos limites esperados;</li>
+        <li><strong>ALERTA:</strong> quando existe algum risco ou sinal de instabilidade;</li>
+        <li><strong>CRÍTICO:</strong> quando há falha grave ou risco direto para a missão.</li>
+    </ul>
+    <p>Além da classificação geral, o sistema também gera alertas automáticos, identifica inconsistências, calcula previsões simples e recomenda ações operacionais. Dessa forma, ele representa uma versão simplificada de uma central de monitoramento de uma colônia espacial.</p>
+
+    <h2>3. Estrutura geral do projeto</h2>
+    <p>O projeto foi organizado em módulos para separar melhor as funções do sistema. O arquivo principal é <code>src/sistema.py</code>, responsável por coordenar a execução.</p>
+    <p>A estrutura principal utilizada foi:</p>
+    <pre>global-solutions-1.1/
+│
+├── README.md
+├── data/
+│   └── telemetria.json
+│
+└── src/
+    ├── sistema.py
+    └── modulos/
+        ├── alertas.py
+        ├── diagnostico.py
+        ├── gerador_dados.py
+        ├── modelos.py
+        ├── previsao.py
+        ├── recomendacoes.py
+        └── telemetria.py</pre>
+    <p>Cada arquivo possui uma responsabilidade específica. O <code>sistema.py</code> não concentra toda a lógica, mas chama as classes dos módulos auxiliares para executar o fluxo completo.</p>
+
+    <h2>4. Como executar o sistema</h2>
+    <p>Para executar o projeto, deve-se abrir o terminal na pasta do repositório e rodar:</p>
+    <pre><code>python -m src.sistema</code></pre>
+    <p>Caso o arquivo <code>data/telemetria.json</code> ainda não exista, o próprio sistema cria automaticamente uma base de dados simulada com 1200 leituras horárias. Isso evita que o programa dependa de uma base já pronta para funcionar.</p>
+    <p>Depois de carregar ou gerar os dados, o sistema executa o fluxo completo de análise e imprime um relatório final no terminal.</p>
+
+    <!-- Código da célula do notebook -->
+    <pre><code># Execute esta célula com o notebook dentro da pasta do projeto.
+# Ela chama o sistema da mesma forma indicada no README.
+!python -m src.sistema</code></pre>
+
+    <h2>5. Fluxo de funcionamento</h2>
+    <p>O funcionamento do sistema segue uma sequência bem definida:</p>
+    <ol>
+        <li>Verifica se existe o arquivo <code>data/telemetria.json</code>;</li>
+        <li>Se o arquivo não existir, gera dados simulados de telemetria;</li>
+        <li>Carrega as leituras horárias da missão;</li>
+        <li>Organiza os dados em estruturas como listas, fila, pilha, dicionário, hierarquia e matriz;</li>
+        <li>Classifica o status operacional da missão;</li>
+        <li>Detecta inconsistências nos dados;</li>
+        <li>Gera alertas automáticos;</li>
+        <li>Aplica previsão por média móvel simples;</li>
+        <li>Gera recomendações operacionais;</li>
+        <li>Exibe o relatório final no terminal.</li>
+    </ol>
+    <p>Esse fluxo torna o sistema mais próximo de uma central de monitoramento, pois ele recebe dados, interpreta a situação, identifica riscos e sugere ações.</p>
+
+    <h2>6. Geração dos dados simulados</h2>
+    <p>A classe <code>GeradorTelemetria</code> é responsável por criar a base de dados da missão. Ela gera leituras horárias contendo informações de energia, ambiente, módulos, subsistemas e eventos.</p>
+    <p>A geração foi feita com uma semente fixa (<code>seed=42</code>), o que ajuda a manter os resultados previsíveis durante os testes. O sistema cria dados como:</p>
+    <ul>
+        <li>geração de energia;</li>
+        <li>consumo de energia;</li>
+        <li>percentual de bateria;</li>
+        <li>temperatura;</li>
+        <li>radiação;</li>
+        <li>qualidade de comunicação;</li>
+        <li>velocidade do vento;</li>
+        <li>status do sensor de oxigênio;</li>
+        <li>status dos módulos críticos;</li>
+        <li>eventos operacionais.</li>
+    </ul>
+    <p>A bateria é atualizada ao longo do tempo conforme a diferença entre geração e consumo. Quando a geração é maior que o consumo, a tendência é a bateria subir. Quando o consumo é maior, a bateria cai.</p>
+
+    <h2>7. Dados monitorados pela missão</h2>
+    <p>Cada leitura horária representa o estado da missão em um determinado momento. Os dados principais são organizados em grupos:</p>
+    <h3>Módulos críticos</h3>
+    <p>Os módulos usam valores binários, em que <code>1</code> representa funcionamento ativo e <code>0</code> representa falha ou indisponibilidade.</p>
+    <p>Os principais módulos são:</p>
+    <pre>suporte_vida
+energia
+comunicacao
+habitat
+laboratorio
+armazenamento</pre>
+    <h3>Energia</h3>
+    <p>Os dados de energia registram geração, consumo e bateria:</p>
+    <pre>geracao_kwh
+consumo_kwh
+bateria_percentual</pre>
+    <h3>Ambiente</h3>
+    <p>Os dados ambientais indicam condições externas ou internas relevantes para a missão:</p>
+    <pre>temperatura_c
+radiacao_msv
+qualidade_comunicacao
+velocidade_vento_kmh
+sensor_oxigenio</pre>
+    <h3>Eventos</h3>
+    <p>O sistema também registra eventos como falhas, alertas, reinicializações, mudanças de prioridade, modo econômico e inconsistências.</p>
+
+    <h2>8. Estruturas de dados utilizadas</h2>
+    <p>O projeto usa diferentes estruturas de dados para organizar as informações da missão.</p>
+    <table>
+        <thead>
+            <tr><th>Estrutura</th><th>Uso no sistema</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Lista</td><td>Armazena séries de consumo, geração, temperatura e leituras horárias</td></tr>
+            <tr><td>Fila</td><td>Guarda alertas pendentes para serem processados por ordem de chegada</td></tr>
+            <tr><td>Pilha</td><td>Registra os últimos eventos críticos encontrados</td></tr>
+            <tr><td>Dicionário</td><td>Permite consultar rapidamente os módulos pelo nome</td></tr>
+            <tr><td>Hierarquia</td><td>Organiza subsistemas da missão, como energia, habitat e pesquisa</td></tr>
+            <tr><td>Matriz</td><td>Representa leituras energéticas no formato <code>[geração, consumo, bateria]</code></td></tr>
+        </tbody>
+    </table>
+    <p>Essa escolha deixa os dados mais fáceis de acessar e permite demonstrar a aplicação prática dos conteúdos estudados.</p>
+
+    <h2>9. Organização da telemetria</h2>
+    <p>A classe <code>TelemetriaMissao</code> é responsável por carregar o arquivo JSON e transformar os dados em estruturas internas usadas pelo restante do sistema.</p>
+    <p>Durante o carregamento, a classe separa as informações em listas específicas, como consumo energético, geração energética e temperatura. Ela também monta a matriz de energia, registra eventos no log, guarda eventos críticos em pilha e armazena os módulos em um dicionário.</p>
+    <p>Essa etapa é importante porque o sistema não trabalha diretamente com o JSON bruto o tempo todo. Primeiro os dados são lidos, depois são organizados, e só então as outras partes do programa fazem diagnóstico, previsão e recomendações.</p>
+
+    <h2>10. Diagnóstico operacional</h2>
+    <p>O diagnóstico operacional é feito pela classe <code>DiagnosticoOperacional</code>. Ela analisa a última leitura da telemetria e classifica o estado da missão como <strong>NORMAL</strong>, <strong>ALERTA</strong> ou <strong>CRÍTICO</strong>.</p>
+    <p>A regra principal de estado crítico é:</p>
+    <pre>CRITICO =
+(bateria < 20 AND comunicacao == 0)
+OR
+(suporte_vida == 0)
+OR
+(radiacao > 90)</pre>
+    <p>Essa regra foi pensada de forma conservadora. Se a bateria estiver muito baixa junto com falha de comunicação, se o suporte à vida falhar ou se a radiação estiver em nível perigoso, a missão entra em estado crítico.</p>
+    <p>Também existe uma classificação intermediária de alerta, usada quando a bateria está baixa, a radiação está elevada ou o sensor de oxigênio apresenta problema.</p>
+
+    <h2>11. Inconsistência proposital</h2>
+    <p>O sistema inclui uma inconsistência proposital nos dados para testar a capacidade de diagnóstico. Em determinado momento, o suporte à vida aparece como ativo, mas o sensor de oxigênio aparece desligado.</p>
+    <p>Essa situação é tratada como uma inconsistência porque os dois dados não combinam totalmente. Se o suporte à vida está ativo, espera-se que o sensor de oxigênio esteja funcionando ou pelo menos retornando uma leitura válida.</p>
+    <p>A detecção desse caso é importante porque, em sistemas críticos, nem todo problema aparece como uma falha direta. Às vezes o risco está em dados conflitantes, que podem levar a uma decisão errada se forem aceitos sem verificação.</p>
+
+    <h2>12. Central de alertas</h2>
+    <p>A geração de alertas é feita pela classe <code>CentralAlertas</code>. Ela analisa a última leitura da missão e cria alertas de acordo com situações de risco.</p>
+    <p>O sistema pode gerar alertas para casos como:</p>
+    <ul>
+        <li>falha no suporte à vida;</li>
+        <li>comunicação instável ou indisponível;</li>
+        <li>bateria abaixo de 20%;</li>
+        <li>bateria abaixo de 40%;</li>
+        <li>radiação perigosa;</li>
+        <li>inconsistências nos sensores.</li>
+    </ul>
+    <p>Cada alerta possui severidade, mensagem, recomendação e timestamp. Isso deixa a saída mais organizada e facilita a interpretação por quem está monitorando a missão.</p>
+
+    <h2>13. Previsão por média móvel simples</h2>
+    <p>A previsão foi implementada com a classe <code>PrevisorMediaMovel</code>. A técnica usada é a <strong>média móvel simples</strong>, com uma janela de 3 valores.</p>
+    <p>A fórmula usada é:</p>
+    <pre>previsao = (valor_1 + valor_2 + valor_3) / 3</pre>
+    <p>No sistema, essa previsão é aplicada sobre os últimos valores de consumo energético e geração energética. O objetivo não é criar um modelo avançado, mas sim estimar a tendência imediata da missão de forma simples e compreensível.</p>
+    <p>Essa previsão influencia as recomendações. Por exemplo, se o consumo previsto for maior que a geração prevista, o sistema pode recomendar ativar modo econômico ou desligar temporariamente sistemas não essenciais.</p>
+
+    <h2>14. Recomendações operacionais</h2>
+    <p>As recomendações são geradas pela classe <code>RecomendadorOperacional</code>. Ela recebe o status da missão, a última leitura, o consumo previsto e a geração prevista.</p>
+    <p>As recomendações são criadas de acordo com as condições encontradas. Alguns exemplos são:</p>
+    <ul>
+        <li>acionar protocolo crítico da missão;</li>
+        <li>ativar modo economia;</li>
+        <li>desligar temporariamente o laboratório;</li>
+        <li>ativar comunicação de emergência;</li>
+        <li>suspender atividades externas;</li>
+        <li>priorizar suporte à vida;</li>
+        <li>auditar sensores de oxigênio;</li>
+        <li>manter operação normal.</li>
+    </ul>
+    <p>Essa parte é importante porque o sistema não apenas aponta problemas. Ele também sugere ações para responder a esses problemas.</p>
+
+    <h2>15. Modelagem matemática usada no projeto</h2>
+    <p>A modelagem matemática principal aparece em duas partes do sistema: no comportamento da bateria e na previsão por média móvel.</p>
+    <h3>15.1 Atualização da bateria</h3>
+    <p>A bateria varia conforme a diferença entre geração e consumo:</p>
+    <pre>bateria_nova = bateria_atual + ((geracao - consumo) / 18)</pre>
+    <p>Se a geração for maior que o consumo, o resultado tende a aumentar a bateria. Se o consumo for maior que a geração, o resultado tende a diminuir a bateria.</p>
+    <p>Também existe um limite mínimo e máximo para a bateria, evitando valores irreais:</p>
+    <pre>5% <= bateria <= 100%</pre>
+    <h3>15.2 Média móvel</h3>
+    <p>A previsão por média móvel usa os últimos três valores registrados:</p>
+    <pre>media_movel = soma_dos_ultimos_3_valores / 3</pre>
+    <p>Essa técnica permite suavizar oscilações e estimar o comportamento do próximo ciclo de forma simples.</p>
+
+    <h2>16. Exemplo de interpretação do sistema</h2>
+    <p>Um exemplo de situação crítica seria:</p>
+    <pre>bateria = 18%
+comunicacao = 0
+suporte_vida = 1
+radiacao = 55 mSv</pre>
+    <p>Nesse caso, mesmo que o suporte à vida esteja funcionando e a radiação não esteja extrema, a missão pode ser classificada como <strong>CRÍTICA</strong>, pois a bateria está abaixo de 20% e a comunicação está indisponível.</p>
+    <p>A recomendação esperada seria reduzir consumo, ativar comunicação de emergência e priorizar módulos essenciais. Isso mostra como a lógica booleana ajuda o sistema a tomar decisões com base em combinações de condições.</p>
+
+    <h2>17. Resultado exibido no terminal</h2>
+    <p>Ao final da execução, o sistema imprime um relatório com as principais informações analisadas:</p>
+    <ul>
+        <li>nome da missão;</li>
+        <li>quantidade de leituras analisadas;</li>
+        <li>última leitura processada;</li>
+        <li>status da missão;</li>
+        <li>oito eventos selecionados do log;</li>
+        <li>previsão de consumo e geração;</li>
+        <li>inconsistências detectadas;</li>
+        <li>alertas gerados;</li>
+        <li>recomendações operacionais.</li>
+    </ul>
+    <p>Essa saída resume o estado da missão e pode ser usada como base para apresentação do vídeo.</p>
+
+    <h2>18. Pontos positivos da solução</h2>
+    <p>A solução apresenta alguns pontos fortes:</p>
+    <ul>
+        <li>organização modular do código;</li>
+        <li>geração automática de dados simulados;</li>
+        <li>uso de estruturas de dados variadas;</li>
+        <li>diagnóstico com lógica booleana;</li>
+        <li>detecção de inconsistência proposital;</li>
+        <li>alertas automáticos com recomendações;</li>
+        <li>previsão simples por média móvel;</li>
+        <li>relatório final claro no terminal.</li>
+    </ul>
+    <p>A estrutura orientada a objetos também facilita melhorias futuras, já que cada classe tem uma responsabilidade bem definida.</p>
+
+    <h2>19. Possíveis melhorias futuras</h2>
+    <p>Mesmo funcionando para o objetivo da atividade, o sistema poderia ser expandido em versões futuras.</p>
+    <p>Algumas melhorias possíveis seriam:</p>
+    <ul>
+        <li>criar interface gráfica ou painel web;</li>
+        <li>permitir filtros por período de tempo;</li>
+        <li>salvar o relatório final em arquivo;</li>
+        <li>gerar gráficos de bateria, consumo e geração;</li>
+        <li>incluir mais sensores e módulos;</li>
+        <li>comparar previsões diferentes;</li>
+        <li>criar níveis de prioridade para as recomendações;</li>
+        <li>adicionar testes automatizados.</li>
+    </ul>
+    <p>Essas melhorias não são obrigatórias para o funcionamento atual, mas mostram caminhos possíveis para evoluir o projeto.</p>
+
+    <h2>20. Conclusão</h2>
+    <p>O sistema desenvolvido cumpre a proposta de monitorar uma missão espacial experimental usando dados simulados de telemetria. Ele organiza as informações em estruturas de dados, interpreta o estado dos módulos, identifica riscos, detecta inconsistências e gera recomendações operacionais.</p>
+    <p>A divisão em classes tornou o projeto mais organizado e facilitou a separação das responsabilidades. A classe de telemetria cuida dos dados, o diagnóstico classifica a missão, a central de alertas registra problemas, o previsor calcula tendências e o recomendador sugere ações.</p>
+    <p>De forma geral, o projeto mostra como conceitos de programação, lógica booleana, estruturas de dados e modelagem matemática podem ser aplicados em um cenário de monitoramento espacial. A solução não se limita a processar dados: ela transforma as leituras em diagnósticos e recomendações úteis para manter a missão segura.</p>
+
+    <h2>21. Referências do projeto</h2>
+    <ul>
+        <li>Repositório do projeto: <a href="https://github.com/FIAP-workd/global-solutions-1.1">https://github.com/FIAP-workd/global-solutions-1.1</a></li>
+        <li>Arquivo principal: <code>src/sistema.py</code></li>
+        <li>Módulos auxiliares: <code>src/modulos/</code></li>
+        <li>Base de dados simulada: <code>data/telemetria.json</code></li>
+    </ul>
+
+    <div class="footer-meta">
+        Relatório técnico - Global Solution 2026 · Monitoramento de Missão Espacial · Documentação oficial do sistema Ares Habitat
+    </div>
+</div>
+</body>
+</html>
